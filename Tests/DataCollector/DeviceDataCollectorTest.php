@@ -16,9 +16,7 @@ use PHPUnit_Framework_MockObject_MockBuilder;
 use SunCat\MobileDetectBundle\DataCollector\DeviceDataCollector;
 use SunCat\MobileDetectBundle\EventListener\RequestResponseListener;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
-use SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\ServerBag;
 
@@ -38,12 +36,12 @@ class DeviceDataCollectorTest extends TestCase
      * @var PHPUnit_Framework_MockObject_MockBuilder
      */
     private $requestStack;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -91,7 +89,7 @@ class DeviceDataCollectorTest extends TestCase
 
         $currentView = $deviceDataCollector->getCurrentView();
         $views = $deviceDataCollector->getViews();
-        
+
         $this->assertEquals($deviceView->getViewType(), $currentView);
         $this->assertEquals(DeviceView::VIEW_MOBILE, $currentView);
         $this->assertCount(3, $views);
@@ -146,7 +144,7 @@ class DeviceDataCollectorTest extends TestCase
 
         $currentView = $deviceDataCollector->getCurrentView();
         $views = $deviceDataCollector->getViews();
-        
+
         $this->assertEquals($deviceView->getViewType(), $currentView);
         $this->assertEquals(DeviceView::VIEW_MOBILE, $currentView);
         $this->assertCount(3, $views);

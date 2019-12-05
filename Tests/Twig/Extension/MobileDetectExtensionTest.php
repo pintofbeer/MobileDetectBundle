@@ -4,11 +4,9 @@ namespace SunCat\MobileDetectBundle\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockBuilder;
+use PHPUnit_Framework_MockObject_MockObject;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension;
-use Symfony\Component\HttpFoundation\HeaderBag;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
@@ -32,7 +30,7 @@ class MobileDetectExtensionTest extends TestCase
     private $config;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
 

@@ -29,10 +29,10 @@ class MobileDetectExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('mobile_detect.xml');
-        $loader->load('listener.xml');
-        $loader->load('twig.xml');
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('mobile_detect.yaml');
+        $loader->load('listener.yaml');
+        $loader->load('twig.yaml');
 
         // valid mobile host
         if ($config['redirect']['mobile']['is_enabled'] && !$this->validHost($config['redirect']['mobile']['host'])) {
@@ -56,7 +56,7 @@ class MobileDetectExtension extends Extension
         $container->setParameter('mobile_detect.cookie_path', $config['cookie_path']);
         $container->setParameter('mobile_detect.cookie_domain', $config['cookie_domain']);
         $container->setParameter('mobile_detect.cookie_secure', $config['cookie_secure']);
-        $container->setParameter('mobile_detect.cookie_httponly', $config['cookie_httponly']);
+        $container->setParameter('mobile_detect.cookie_httpOnly', $config['cookie_httpOnly']);
         $container->setParameter('mobile_detect.cookie_expire_datetime_modifier', $config['cookie_expire_datetime_modifier']);
         $container->setParameter('mobile_detect.switch_param', $config['switch_param']);
 

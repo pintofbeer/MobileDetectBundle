@@ -1,0 +1,20 @@
+parameters:
+  mobile_detect.request_response_listener.class: ''
+  mobile_detect.redirect: ''
+  mobile_detect.switch_device_view.save_referer_path: ''
+
+services:
+  mobile_detect.request_listener:
+    class: '%mobile_detect.request_response_listener.class%'
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: handleRequest, priority: 1 }
+      - { name: kernel.event_listener, event: kernel.response, method: handleResponse }
+    arguments: ['@mobile_detect.mobile_detector', '@mobile_detect.device_view', '@router', '%mobile_detect.redirect%', '%mobile_detect.switch_device_view.save_referer_path%']
+
+  mobile_detect_bundle.device.collector:
+    class: SunCat\MobileDetectBundle\DataCollector\DeviceDataCollector
+    tags:
+      - { name: data_collector, template: '@MobileDetect/Collector/device.html.twig', id: device.collector }
+    arguments: ['@mobile_detect.device_view']
+    calls:
+      - [setRedirectConfig, ['%mobile_detect.redirect%']]

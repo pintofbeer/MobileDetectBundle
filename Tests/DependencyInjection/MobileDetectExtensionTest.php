@@ -16,9 +16,7 @@ use PHPUnit\Framework\TestCase;
 use SunCat\MobileDetectBundle\DependencyInjection\MobileDetectExtension;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * MobileDetectExtensionTest

@@ -21,13 +21,13 @@ Installation
 #### For Symfony >= 2.4
 
 Run command:
-`composer require "suncat/mobile-detect-bundle:1.0.*"`
+`composer require "netbull/mobile-detect-bundle:1.0.*"`
 
 Or add to `composer.json` in your project to `require` section:
 
 ```json
 {
-    "suncat/mobile-detect-bundle": "1.0.*"
+    "netbull/mobile-detect-bundle": "1.0.*"
 }
 ```
 and run command:

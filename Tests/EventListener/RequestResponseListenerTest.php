@@ -4,12 +4,14 @@ namespace SunCat\MobileDetectBundle\Tests\RequestListener;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockBuilder;
+use PHPUnit_Framework_MockObject_MockObject;
 use SunCat\MobileDetectBundle\EventListener\RequestResponseListener;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -35,12 +37,12 @@ class RequestResponseListenerTest extends TestCase
     private $requestStack;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $router;
 
@@ -107,7 +109,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -126,7 +128,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/'));
         $this->router->expects($this->exactly(2))->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
             )
         );
 
@@ -147,12 +149,12 @@ class RequestResponseListenerTest extends TestCase
             DeviceView::VIEW_MOBILE
             ), $response->getTargetUrl()
         );
-        
+
         $cookies = $response->headers->getCookies();
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -190,7 +192,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_FULL, $cookie->getValue());
             }
@@ -239,7 +241,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->exactly(2))->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(true));
@@ -268,7 +270,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_TABLET, $cookie->getValue());
             }
@@ -289,7 +291,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->exactly(2))->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(true));
@@ -319,7 +321,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_TABLET, $cookie->getValue());
             }
@@ -361,7 +363,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_TABLET, $cookie->getValue());
             }
@@ -379,7 +381,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->atLeastOnce())->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
             )
         );
         $this->mobileDetector->expects($this->atLeastOnce())->method('isMobile')->will($this->returnValue(true));
@@ -409,7 +411,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -426,7 +428,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->atLeastOnce())->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT_WITHOUT_PATH, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT_WITHOUT_PATH, 2)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(true));
@@ -457,7 +459,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_TABLET, $cookie->getValue());
             }
@@ -474,7 +476,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->atLeastOnce())->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::NO_REDIRECT, 1)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::NO_REDIRECT, 1)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(true));
@@ -505,7 +507,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_TABLET, $cookie->getValue());
             }
@@ -522,7 +524,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->atLeastOnce())->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT, 2)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(false));
@@ -553,7 +555,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -570,7 +572,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->atLeastOnce())->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::REDIRECT_WITHOUT_PATH, 2)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::REDIRECT_WITHOUT_PATH, 2)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(false));
@@ -601,7 +603,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -618,7 +620,7 @@ class RequestResponseListenerTest extends TestCase
         $this->request->expects($this->any())->method('getPathInfo')->will($this->returnValue('/some/parameters'));
         $this->router->expects($this->atLeastOnce())->method('getRouteCollection')->will(
             $this->returnValue(
-                $this->createRouteCollecitonWithRouteAndRoutingOption(RequestResponseListener::NO_REDIRECT, 1)
+                $this->createRouteCollectionWithRouteAndRoutingOption(RequestResponseListener::NO_REDIRECT, 1)
             )
         );
         $this->mobileDetector->expects($this->once())->method('isTablet')->will($this->returnValue(false));
@@ -650,7 +652,7 @@ class RequestResponseListenerTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -672,14 +674,14 @@ class RequestResponseListenerTest extends TestCase
     }
 
     /**
-     * createRouteCollecitonWithRouteAndRoutingOption
+     * createRouteCollectionWithRouteAndRoutingOption
      *
      * @param type $returnValue Return value
      * @param type $times       Times
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
-    private function createRouteCollecitonWithRouteAndRoutingOption($returnValue, $times)
+    private function createRouteCollectionWithRouteAndRoutingOption($returnValue, $times)
     {
         $route = $this->getMockBuilder('Symfony\Component\Routing\Route')->disableOriginalConstructor()->getMock();
         $route->expects($this->exactly($times))->method('getOption')->will($this->returnValue($returnValue));
@@ -696,11 +698,11 @@ class RequestResponseListenerTest extends TestCase
      * @param string $method  Method
      * @param array  $headers Headers
      *
-     * @return \Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent
+     * @return GetResponseForControllerResultEvent
      */
     private function createGetResponseEvent($content, $method = 'GET', $headers = array())
     {
-        $event = new GetResponseForControllerResultEvent(
+        $event = new ViewEvent(
             $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface'),
             $this->request,
             HttpKernelInterface::MASTER_REQUEST,
@@ -718,11 +720,11 @@ class RequestResponseListenerTest extends TestCase
      * @param string $method   Method
      * @param array  $headers  Headers
      *
-     * @return \Symfony\Component\HttpKernel\Event\FilterResponseEvent
+     * @return ResponseEvent
      */
     private function createFilterResponseEvent($response, $method = 'GET', $headers = array())
     {
-        $event = new FilterResponseEvent(
+        $event = new ResponseEvent(
             $this->createMock('Symfony\Component\HttpKernel\HttpKernelInterface'),
             $this->request,
             HttpKernelInterface::MASTER_REQUEST,
@@ -732,5 +734,4 @@ class RequestResponseListenerTest extends TestCase
 
         return $event;
     }
-
 }

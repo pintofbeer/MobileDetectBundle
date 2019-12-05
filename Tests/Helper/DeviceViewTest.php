@@ -4,6 +4,7 @@ namespace SunCat\MobileDetectBundle\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockBuilder;
+use PHPUnit_Framework_MockObject_MockObject;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class DeviceViewTest extends TestCase
     private $requestStack;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
 
@@ -378,7 +379,7 @@ class DeviceViewTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }
@@ -399,7 +400,7 @@ class DeviceViewTest extends TestCase
         $this->assertGreaterThan(0, count($cookies));
         foreach ($cookies as $cookie) {
             $this->assertInstanceOf('Symfony\Component\HttpFoundation\Cookie', $cookie);
-            /* @var \Symfony\Component\HttpFoundation\Cookie $cookie */
+            /* @var Cookie $cookie */
             if ($cookie->getName() == $deviceView->getCookieKey()) {
                 $this->assertEquals(DeviceView::VIEW_MOBILE, $cookie->getValue());
             }

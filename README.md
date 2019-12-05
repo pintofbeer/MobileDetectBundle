@@ -1,3 +1,5 @@
+# It looks like the official repo is abandoned, so as a temporary fix this can be used.
+
 MobileDetectBundle
 =============
 

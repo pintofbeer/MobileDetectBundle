@@ -29,8 +29,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('mobile_detect');
+        $treeBuilder = new TreeBuilder('mobile_detect');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -83,7 +83,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('cookie_path')->defaultValue(DeviceView::COOKIE_PATH_DEFAULT)->cannotBeEmpty()->end()
                 ->scalarNode('cookie_domain')->defaultValue(DeviceView::COOKIE_DOMAIN_DEFAULT)->cannotBeEmpty()->end()
                 ->booleanNode('cookie_secure')->defaultValue(DeviceView::COOKIE_SECURE_DEFAULT)->end()
-                ->booleanNode('cookie_httponly')->defaultValue(DeviceView::COOKIE_HTTP_ONLY_DEFAULT)->end()
+                ->booleanNode('cookie_httpOnly')->defaultValue(DeviceView::COOKIE_HTTP_ONLY_DEFAULT)->end()
                 ->scalarNode('cookie_expire_datetime_modifier')->defaultValue(DeviceView::COOKIE_EXPIRE_DATETIME_MODIFIER_DEFAULT)->cannotBeEmpty()->end()
                 ->scalarNode('switch_param')->defaultValue(DeviceView::SWITCH_PARAM_DEFAULT)->cannotBeEmpty()->end()
                 ->scalarNode('mobile_detector_class')->defaultValue('SunCat\MobileDetectBundle\DeviceDetector\MobileDetector')->cannotBeEmpty()->end()

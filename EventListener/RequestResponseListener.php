@@ -11,13 +11,14 @@
 
 namespace SunCat\MobileDetectBundle\EventListener;
 
+use Closure;
 use SunCat\MobileDetectBundle\DeviceDetector\MobileDetector;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use SunCat\MobileDetectBundle\Helper\RedirectResponseWithCookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -64,7 +65,7 @@ class RequestResponseListener
     protected $needModifyResponse = false;
 
     /**
-     * @var \Closure
+     * @var Closure
      */
     protected $modifyResponseClosure;
 
@@ -96,11 +97,11 @@ class RequestResponseListener
     /**
      * Handles the Request
      *
-     * @param GetResponseEvent $event
+     * @param RequestEvent $event
      *
      * @return null
      */
-    public function handleRequest(GetResponseEvent $event)
+    public function handleRequest(RequestEvent $event)
     {
         // only handle master request, do not handle sub request like esi includes
         // If the device view is "not the mobile view" (e.g. we're not in the request context)
@@ -150,6 +151,8 @@ class RequestResponseListener
         // Sets the flag for the response handler and prepares the modification closure
         $this->needModifyResponse = true;
         $this->prepareResponseModification($this->deviceView->getViewType());
+
+        return;
     }
 
     /**
@@ -166,18 +169,18 @@ class RequestResponseListener
     /**
      * Handles the Response
      *
-     * @param FilterResponseEvent $event
+     * @param ResponseEvent $event
      *
      * @return null
      */
-    public function handleResponse(FilterResponseEvent $event)
+    public function handleResponse(ResponseEvent $event)
     {
-        if ($this->needModifyResponse && $this->modifyResponseClosure instanceof \Closure) {
+        if ($this->needModifyResponse && $this->modifyResponseClosure instanceof Closure) {
             $modifyClosure = $this->modifyResponseClosure;
             $event->setResponse($modifyClosure($this->deviceView, $event));
-
-            return;
         }
+
+        return;
     }
 
     /**
@@ -210,12 +213,10 @@ class RequestResponseListener
      * Prepares the response modification which will take place after the controller logic has been executed.
      *
      * @param string $view The view for which to prepare the response modification.
-     *
-     * @return boolean
      */
     protected function prepareResponseModification($view)
     {
-        $this->modifyResponseClosure = function (DeviceView $deviceView, FilterResponseEvent $event) use ($view) {
+        $this->modifyResponseClosure = function (DeviceView $deviceView, ResponseEvent $event) use ($view) {
             return $deviceView->modifyResponse($view, $event->getResponse());
         };
     }

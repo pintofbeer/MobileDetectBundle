@@ -11,6 +11,8 @@
 
 namespace SunCat\MobileDetectBundle\Helper;
 
+use Datetime;
+use Exception;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -283,7 +285,7 @@ class DeviceView
                 $viewType = self::VIEW_FULL;
         }
 
-        return new RedirectResponseWithCookie($redirectUrl, $this->getStatusCode($viewType), $this->createCookie($viewType));
+        return new RedirectResponseWithCookie($redirectUrl, $this->createCookie($viewType), $this->getStatusCode($viewType));
     }
 
     /**
@@ -312,7 +314,7 @@ class DeviceView
      */
     public function getRedirectResponse($view, $host, $statusCode)
     {
-        return new RedirectResponseWithCookie($host, $statusCode, $this->createCookie($view));
+        return new RedirectResponseWithCookie($host, $this->createCookie($view), $statusCode);
     }
 
     /**
@@ -461,9 +463,9 @@ class DeviceView
     protected function createCookie($value)
     {
         try {
-            $expire = new \Datetime($this->getCookieExpireDatetimeModifier());
-        } catch (\Exception $e) {
-            $expire = new \Datetime(self::COOKIE_EXPIRE_DATETIME_MODIFIER_DEFAULT);
+            $expire = new Datetime($this->getCookieExpireDatetimeModifier());
+        } catch (Exception $e) {
+            $expire = new Datetime(self::COOKIE_EXPIRE_DATETIME_MODIFIER_DEFAULT);
         }
 
         return new Cookie(
