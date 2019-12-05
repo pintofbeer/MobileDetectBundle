@@ -65,7 +65,7 @@ class RequestResponseListenerTest extends TestCase
         $this->deviceView = $this->getMockBuilder('SunCat\MobileDetectBundle\Helper\DeviceView')->disableOriginalConstructor()->getMock();
         $this->router = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Routing\Router')
             ->disableOriginalConstructor()
-            ->addMethods(array('getRouteCollection'))
+            ->onlyMethods(array('getRouteCollection'))
             ->getMock();
 
         $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')->getMock();
