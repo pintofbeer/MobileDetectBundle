@@ -95,7 +95,7 @@ class DeviceDataCollectorTest extends TestCase
         $this->assertCount(3, $views);
 
         foreach ($views as $view) {
-            $this->assertInternalType('array', $view);
+            $this->assertIsArray($view);
             $this->assertArrayHasKey('type', $view);
             $this->assertArrayHasKey('label', $view);
             $this->assertArrayHasKey('link', $view);
@@ -150,7 +150,7 @@ class DeviceDataCollectorTest extends TestCase
         $this->assertCount(3, $views);
 
         foreach ($views as $view) {
-            $this->assertInternalType('array', $view);
+            $this->assertIsArray($view);
             $this->assertArrayHasKey('type', $view);
             $this->assertArrayHasKey('label', $view);
             $this->assertArrayHasKey('link', $view);
@@ -216,7 +216,7 @@ class DeviceDataCollectorTest extends TestCase
         $this->assertCount(3, $views);
 
         foreach ($views as $view) {
-            $this->assertInternalType('array', $view);
+            $this->assertIsArray($view);
             $this->assertArrayHasKey('type', $view);
             $this->assertArrayHasKey('label', $view);
             $this->assertArrayHasKey('link', $view);
@@ -282,7 +282,7 @@ class DeviceDataCollectorTest extends TestCase
         $this->assertCount(3, $views);
 
         foreach ($views as $view) {
-            $this->assertInternalType('array', $view);
+            $this->assertIsArray($view);
             $this->assertArrayHasKey('type', $view);
             $this->assertArrayHasKey('label', $view);
             $this->assertArrayHasKey('link', $view);

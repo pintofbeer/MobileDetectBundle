@@ -93,7 +93,7 @@ class MobileDetectExtensionTest extends TestCase
             $name = $function->getName();
             $callable = $function->getCallable();
             $this->assertArrayHasKey($name, $names);
-            $this->assertInternalType('array', $callable);
+            $this->assertIsArray($callable);
             $this->assertEquals($names[$name], $callable[1]);
         }
     }
