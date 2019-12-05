@@ -9,8 +9,6 @@ cache:
 
 php:
   - hhvm
-  - 7.0
-  - 7.1
   - 7.2
   - 7.3
 
@@ -21,15 +19,15 @@ matrix:
     - php: hhvm
   fast_finish: true
   include:
-    - php: 7.1
+    - php: 7.2
       env: SYMFONY_VERSION='4.0.*'
-    - php: 7.1
+    - php: 7.2
       env: SYMFONY_VERSION='4.1.*'
-    - php: 7.1
+    - php: 7.2
       env: SYMFONY_VERSION='4.2.*'
-    - php: 7.1
+    - php: 7.2
       env: SYMFONY_VERSION='4.3.*'
-    - php: 7.1
+    - php: 7.2
       env: SYMFONY_VERSION='4.4.*'
     - php: 7.3
       env: SYMFONY_VERSION='4.0.*'
