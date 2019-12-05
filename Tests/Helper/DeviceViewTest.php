@@ -32,7 +32,7 @@ class DeviceViewTest extends TestCase
     /**
      * Set up
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
