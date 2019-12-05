@@ -475,7 +475,9 @@ class DeviceView
             $this->getCookiePath(),
             $this->getCookieDomain(),
             $this->isCookieSecure(),
-            $this->isCookieHttpOnly()
+            $this->isCookieHttpOnly(),
+            false,
+            Cookie::SAMESITE_LAX
         );
     }
 
