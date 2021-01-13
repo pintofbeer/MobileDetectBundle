@@ -17,6 +17,7 @@ use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Throwable;
 
 /**
  * DeviceDataCollector class
@@ -58,7 +59,7 @@ class DeviceDataCollector extends DataCollector
     public function collect(
         Request $request,
         Response $response,
-        Exception $exception = null
+        Throwable $exception = null
     ) {
         $this->data['currentView'] = $this->deviceView->getViewType();
         $this->data['views'] = array(
@@ -98,7 +99,7 @@ class DeviceDataCollector extends DataCollector
     /**
      * @return string
      */
-    public function getCurrentView()
+    public function getCurrentView(): string
     {
         return $this->data['currentView'];
     }
@@ -106,7 +107,7 @@ class DeviceDataCollector extends DataCollector
     /**
      * @return array
      */
-    public function getViews()
+    public function getViews(): array
     {
         return $this->data['views'];
     }
@@ -126,7 +127,7 @@ class DeviceDataCollector extends DataCollector
      *
      * @api
      */
-    public function getName()
+    public function getName(): string
     {
         return 'device.collector';
     }
@@ -137,7 +138,7 @@ class DeviceDataCollector extends DataCollector
      *
      * @return bool
      */
-    protected function canUseView($view, $host)
+    protected function canUseView($view, $host): bool
     {
         if (!is_array($this->redirectConfig)) {
             return true;

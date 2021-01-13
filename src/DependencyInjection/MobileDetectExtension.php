@@ -74,7 +74,7 @@ class MobileDetectExtension extends Extension
      *
      * @return boolean
      */
-    protected function validHost($url)
+    protected function validHost(string $url): bool
     {
         $pattern = "/^(?:(http|https):\/\/)([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i";
 

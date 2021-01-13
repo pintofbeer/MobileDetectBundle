@@ -1,0 +1,11 @@
+parameters:
+    mobile_detect.twig.extension.class: ''
+
+services:
+    mobile_detect.twig.extension:
+        class: '%mobile_detect.twig.extension.class%'
+        tags:
+            - { name: twig.extension }
+        arguments: [ '@mobile_detect.mobile_detector', '@mobile_detect.device_view', '%mobile_detect.redirect%' ]
+        calls:
+            - [ setRequestByRequestStack, [ '@?request_stack' ] ]

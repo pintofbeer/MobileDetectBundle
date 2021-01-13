@@ -50,8 +50,8 @@ class MobileDetectExtension extends AbstractExtension
      * MobileDetectExtension constructor.
      *
      * @param MobileDetector $mobileDetector
-     * @param DeviceView     $deviceView
-     * @param array          $redirectConf
+     * @param DeviceView $deviceView
+     * @param array $redirectConf
      */
     public function __construct(MobileDetector $mobileDetector, DeviceView $deviceView, array $redirectConf)
     {
@@ -65,7 +65,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return array(
             new TwigFunction('is_mobile', array($this, 'isMobile')),
@@ -88,14 +88,14 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @param string $propertyName The name of the property. See self::getProperties() array
      *                             keys for all possible properties.
-     * @param string $type         Either self::VERSION_TYPE_STRING to get a string value or
+     * @param string $type Either self::VERSION_TYPE_STRING to get a string value or
      *                             self::VERSION_TYPE_FLOAT indicating a float value. This parameter
      *                             is optional and defaults to self::VERSION_TYPE_STRING. Passing an
      *                             invalid parameter will default to the this type as well.
      *
      * @return string|float The version of the property we are trying to extract.
      */
-    public function deviceVersion($propertyName, $type = Mobile_Detect::VERSION_TYPE_STRING)
+    public function deviceVersion(string $propertyName, $type = Mobile_Detect::VERSION_TYPE_STRING)
     {
         return $this->mobileDetector->version($propertyName, $type);
     }
@@ -110,7 +110,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return string
      */
-    public function fullViewUrl($addCurrentPathAndQuery = true)
+    public function fullViewUrl($addCurrentPathAndQuery = true): ?string
     {
         if (!isset($this->redirectConf[DeviceView::VIEW_FULL]['host'])) {
             // The host property has not been configured for the full view
@@ -148,7 +148,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isMobile()
+    public function isMobile(): bool
     {
         return $this->mobileDetector->isMobile();
     }
@@ -158,7 +158,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isTablet()
+    public function isTablet(): bool
     {
         return $this->mobileDetector->isTablet();
     }
@@ -170,9 +170,9 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isDevice($deviceName)
+    public function isDevice($deviceName): bool
     {
-        $magicMethodName = 'is'.strtolower((string) $deviceName);
+        $magicMethodName = 'is'.strtolower((string)$deviceName);
 
         return $this->mobileDetector->$magicMethodName();
     }
@@ -182,7 +182,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isFullView()
+    public function isFullView(): bool
     {
         return $this->deviceView->isFullView();
     }
@@ -192,7 +192,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isMobileView()
+    public function isMobileView(): bool
     {
         return $this->deviceView->isMobileView();
     }
@@ -202,7 +202,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isTabletView()
+    public function isTabletView(): bool
     {
         return $this->deviceView->isTabletView();
     }
@@ -212,7 +212,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isNotMobileView()
+    public function isNotMobileView(): bool
     {
         return $this->deviceView->isNotMobileView();
     }
@@ -222,7 +222,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isIOS()
+    public function isIOS(): bool
     {
         return $this->mobileDetector->isIOS();
     }
@@ -232,7 +232,7 @@ class MobileDetectExtension extends AbstractExtension
      *
      * @return boolean
      */
-    public function isAndroidOS()
+    public function isAndroidOS(): bool
     {
         return $this->mobileDetector->isAndroidOS();
     }
@@ -240,7 +240,7 @@ class MobileDetectExtension extends AbstractExtension
     /**
      * Sets the request from the current scope.
      *
-     * @param RequestStack $requestStack
+     * @param RequestStack|null $requestStack
      */
     public function setRequestByRequestStack(RequestStack $requestStack = null)
     {

@@ -21,14 +21,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class RedirectResponseWithCookie extends RedirectResponse
 {
-   /**
-    * Creates a redirect response so that it conforms to the rules defined for a redirect status code.
-    *
-    * @param string  $url    The URL to redirect to
-    * @param Cookie  $cookie An array of Cookie objects
-    * @param integer $status The status code (302 by default)
-    */
-    public function __construct($url, Cookie $cookie, $status = 302)
+    /**
+     * Creates a redirect response so that it conforms to the rules defined for a redirect status code.
+     *
+     * @param string $url The URL to redirect to
+     * @param Cookie $cookie An array of Cookie objects
+     * @param integer $status The status code (302 by default)
+     */
+    public function __construct(string $url, Cookie $cookie, $status = 302)
     {
         parent::__construct($url, $status);
 
