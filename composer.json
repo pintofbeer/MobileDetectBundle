@@ -32,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SunCat\\MobileDetectBundle": "src/"
+            "SunCat\\MobileDetectBundle\\": "src/"
         }
     }
 }
