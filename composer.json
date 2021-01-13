@@ -31,9 +31,8 @@
         "satooshi/php-coveralls": "^2.0.0"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "SunCat\\MobileDetectBundle": "src/"
         }
-    },
-    "target-dir": "SunCat/MobileDetectBundle"
+    }
 }
