@@ -44,12 +44,12 @@ class DeviceView
     protected $request;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $requestedViewType;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $viewType;
 
@@ -101,7 +101,6 @@ class DeviceView
     {
         if (!$requestStack || !$this->request = $requestStack->getMasterRequest()) {
             $this->viewType = self::VIEW_NOT_MOBILE;
-
             return;
         }
 
@@ -117,9 +116,9 @@ class DeviceView
     /**
      * Gets the view type for a device.
      *
-     * @return string
+     * @return string|null
      */
-    public function getViewType(): string
+    public function getViewType(): ?string
     {
         return $this->viewType;
     }
@@ -127,9 +126,9 @@ class DeviceView
     /**
      * Gets the view type that has explicitly been requested either by switch param, or by cookie.
      *
-     * @return string The requested view type or null if no view type has been explicitly requested.
+     * @return string|null The requested view type or null if no view type has been explicitly requested.
      */
-    public function getRequestedViewType(): string
+    public function getRequestedViewType(): ?string
     {
         return $this->requestedViewType;
     }
