@@ -11,7 +11,7 @@
          stopOnError="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="Tests/bootstrap.php"
     >
 
     <php>
@@ -42,7 +42,7 @@
                 <directory>./src/Resources</directory>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
-                <file>./tests/bootstrap.php</file>
+                <file>./Tests/bootstrap.php</file>
             </exclude>
             <report>
                 <clover outputFile="build/logs/clover.xml"/>
