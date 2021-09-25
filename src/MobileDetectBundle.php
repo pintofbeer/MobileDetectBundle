@@ -20,11 +20,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class MobileDetectBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainerExtension(): MobileDetectBundleExtension
-    {
-        return new MobileDetectBundleExtension();
-    }
+
 }
