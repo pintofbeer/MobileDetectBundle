@@ -1,7 +1,7 @@
 MobileDetectBundle
 =============
 
-Symfony 4/5 bundle for detect mobile devices, manage mobile view and redirect to the mobile and tablet version.
+Symfony 4/5/6 bundle for detect mobile devices, manage mobile view and redirect to the mobile and tablet version.
 
 
 Switch device view
@@ -13,21 +13,21 @@ For switch device view, use `device_view` GET parameter:
 http://site.com?device_view={full/mobile/tablet}
 ````
 
-Installation
-------------
+  Installation
+  ------------
 
-### Composer
+  ### Composer
 
-#### For Symfony >= 2.4
+  #### For Symfony >= 2.4
 
-Run command:
-`composer require "netbull/mobile-detect-bundle:1.0.*"`
+  Run command:
+  `composer require "netbull/mobile-detect-bundle:1.0.*"`
 
-Or add to `composer.json` in your project to `require` section:
+  Or add to `composer.json` in your project to `require` section:
 
-```json
+  ```json
 {
-    "netbull/mobile-detect-bundle": "1.0.*"
+  "netbull/mobile-detect-bundle": "1.0.*"
 }
 ```
 and run command:
