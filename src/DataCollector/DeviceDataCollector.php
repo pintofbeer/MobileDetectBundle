@@ -11,7 +11,6 @@
 
 namespace SunCat\MobileDetectBundle\DataCollector;
 
-use Exception;
 use SunCat\MobileDetectBundle\EventListener\RequestResponseListener;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,9 +49,9 @@ class DeviceDataCollector extends DataCollector
     /**
      * Collects data for the given Request and Response.
      *
-     * @param Request    $request   A Request instance
-     * @param Response   $response  A Response instance
-     * @param Exception $exception An Exception instance
+     * @param Request $request A Request instance
+     * @param Response $response A Response instance
+     * @param Throwable|null $exception An Exception instance
      *
      * @api
      */
@@ -96,25 +95,17 @@ class DeviceDataCollector extends DataCollector
         );
     }
 
-    /**
-     * @return string
-     */
+
     public function getCurrentView(): string
     {
         return $this->data['currentView'];
     }
 
-    /**
-     * @return array
-     */
     public function getViews(): array
     {
         return $this->data['views'];
     }
 
-    /**
-     * @param array $redirectConfig
-     */
     public function setRedirectConfig(array $redirectConfig)
     {
         $this->redirectConfig = $redirectConfig;
@@ -123,8 +114,6 @@ class DeviceDataCollector extends DataCollector
     /**
      * Returns the name of the collector.
      *
-     * @return string The collector name
-     *
      * @api
      */
     public function getName(): string
@@ -132,13 +121,7 @@ class DeviceDataCollector extends DataCollector
         return 'device.collector';
     }
 
-    /**
-     * @param $view
-     * @param $host
-     *
-     * @return bool
-     */
-    protected function canUseView($view, $host): bool
+    protected function canUseView(string $view, ?string $host): bool
     {
         if (!is_array($this->redirectConfig)) {
             return true;
@@ -174,17 +157,11 @@ class DeviceDataCollector extends DataCollector
         return true;
     }
 
-    /**
-     * @param Request $request
-     * @param         $view
-     *
-     * @return string
-     */
-    private function generateSwitchLink(
-        Request $request,
-        $view
-    ) {
+
+    private function generateSwitchLink(Request $request, string $view): ?string
+    {
         $requestSwitchView = $request->duplicate();
+
         $requestSwitchView->query->set($this->deviceView->getSwitchParam(), $view);
         $requestSwitchView->server->set(
             'QUERY_STRING',

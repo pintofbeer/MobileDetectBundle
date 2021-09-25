@@ -12,12 +12,14 @@
 namespace SunCat\MobileDetectBundle\Tests\DataCollector;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockBuilder;
 use SunCat\MobileDetectBundle\DataCollector\DeviceDataCollector;
 use SunCat\MobileDetectBundle\EventListener\RequestResponseListener;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ServerBag;
 
 /**
@@ -28,22 +30,22 @@ use Symfony\Component\HttpFoundation\ServerBag;
 class DeviceDataCollectorTest extends TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var MockObject
      */
     private $mobileDetector;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var MockBuilder
      */
     private $requestStack;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     private $request;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     private $response;
 
@@ -63,7 +65,7 @@ class DeviceDataCollectorTest extends TestCase
 
         $this->requestStack = $this->getMockBuilder('Symfony\Component\HttpFoundation\RequestStack')->disableOriginalConstructor()->getMock();
         $this->requestStack->expects($this->any())
-            ->method('getMasterRequest')
+            ->method('getMainRequest')
             ->will($this->returnValue($this->request))
         ;
 
@@ -78,7 +80,7 @@ class DeviceDataCollectorTest extends TestCase
         $redirectConfig['tablet'] = array(
             'is_enabled' => true,
             'host' => 'http://testsite.com',
-            'status_code' => 302,
+            'status_code' => Response::HTTP_FOUND,
             'action' => RequestResponseListener::REDIRECT
         );
         $this->request->cookies = new ParameterBag(array(DeviceView::COOKIE_KEY_DEFAULT => DeviceView::VIEW_MOBILE));
@@ -115,7 +117,7 @@ class DeviceDataCollectorTest extends TestCase
         $redirectConfig['tablet'] = array(
             'is_enabled' => true,
             'host' => 'http://testsite.com',
-            'status_code' => 302,
+            'status_code' => Response::HTTP_FOUND,
             'action' => RequestResponseListener::REDIRECT
         );
         $this->request->query = new ParameterBag(array('param1' => 'value1'));
@@ -181,7 +183,7 @@ class DeviceDataCollectorTest extends TestCase
         $redirectConfig['tablet'] = array(
             'is_enabled' => true,
             'host' => 'http://testsite.com',
-            'status_code' => 302,
+            'status_code' => Response::HTTP_FOUND,
             'action' => RequestResponseListener::REDIRECT
         );
         $this->request->query = new ParameterBag(array('param1' => 'value1'));
@@ -247,7 +249,7 @@ class DeviceDataCollectorTest extends TestCase
         $redirectConfig['mobile'] = array(
             'is_enabled' => true,
             'host' => 'http://m.testsite.com',
-            'status_code' => 302,
+            'status_code' => Response::HTTP_FOUND,
             'action' => RequestResponseListener::REDIRECT
         );
         $this->request->query = new ParameterBag(array('param1' => 'value1'));

@@ -11,12 +11,11 @@
 
 namespace SunCat\MobileDetectBundle\Tests\DependencyInjection;
 
-use PHPUnit_Framework_MockObject_MockBuilder;
 use PHPUnit\Framework\TestCase;
 use SunCat\MobileDetectBundle\DependencyInjection\MobileDetectExtension;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * MobileDetectExtensionTest
@@ -53,9 +52,9 @@ class MobileDetectExtensionTest extends TestCase
         $config = array();
         $this->extension->load($config, $this->container);
         $this->assertEquals(array(
-            'mobile' => array('is_enabled' => false, 'host' => null, 'status_code' => 302, 'action' => 'redirect'),
-            'tablet' => array('is_enabled' => false, 'host' => null, 'status_code' => 302, 'action' => 'redirect'),
-            'full' => array('is_enabled' => false, 'host' => null, 'status_code' => 302, 'action' => 'redirect'),
+            'mobile' => array('is_enabled' => false, 'host' => null, 'status_code' => Response::HTTP_FOUND, 'action' => 'redirect'),
+            'tablet' => array('is_enabled' => false, 'host' => null, 'status_code' => Response::HTTP_FOUND, 'action' => 'redirect'),
+            'full'   => array('is_enabled' => false, 'host' => null, 'status_code' => Response::HTTP_FOUND, 'action' => 'redirect'),
             'detect_tablet_as_mobile' => false
         ), $this->container->getParameter('mobile_detect.redirect'));
         $this->assertTrue($this->container->getParameter('mobile_detect.switch_device_view.save_referer_path'));

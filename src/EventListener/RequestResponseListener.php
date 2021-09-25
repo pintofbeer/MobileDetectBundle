@@ -68,6 +68,10 @@ class RequestResponseListener
      * @var Closure
      */
     protected $modifyResponseClosure;
+    /**
+     * @var RouterInterface
+     */
+    private $router;
 
     /**
      * RequestResponseListener constructor.
@@ -83,7 +87,7 @@ class RequestResponseListener
         DeviceView $deviceView,
         RouterInterface $router,
         array $redirectConf,
-        $fullPath = true
+        bool $fullPath = true
     ) {
         $this->mobileDetector = $mobileDetector;
         $this->deviceView = $deviceView;
@@ -96,14 +100,12 @@ class RequestResponseListener
 
     /**
      * Handles the Request
-     *
-     * @param RequestEvent $event
      */
     public function handleRequest(RequestEvent $event)
     {
-        // only handle master request, do not handle sub request like esi includes
+        // only handle main request, do not handle sub request like esi includes
         // If the device view is "not the mobile view" (e.g. we're not in the request context)
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST || $this->deviceView->isNotMobileView()) {
+        if (($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) || $this->deviceView->isNotMobileView()) {
             return;
         }
 
@@ -120,7 +122,7 @@ class RequestResponseListener
         // If neither the SwitchParam nor the cookie are set, detect the view...
         $cookieIsSet = $this->deviceView->getRequestedViewType() !== null;
         if (!$cookieIsSet) {
-            if ($this->redirectConf['detect_tablet_as_mobile'] === false && $this->mobileDetector->isTablet()) {
+            if (($this->redirectConf['detect_tablet_as_mobile'] === false) && $this->mobileDetector->isTablet()) {
                 $this->deviceView->setTabletView();
             } elseif ($this->mobileDetector->isMobile()) {
                 $this->deviceView->setMobileView();
@@ -164,8 +166,6 @@ class RequestResponseListener
 
     /**
      * Handles the Response
-     *
-     * @param ResponseEvent $event
      */
     public function handleResponse(ResponseEvent $event)
     {
@@ -183,7 +183,7 @@ class RequestResponseListener
      *
      * @return bool
      */
-    protected function mustRedirect(Request $request, string $view): bool
+    protected function mustRedirect(Request $request, ?string $view): bool
     {
         if (!isset($this->redirectConf[$view]) ||
             !$this->redirectConf[$view]['is_enabled'] ||
@@ -206,7 +206,7 @@ class RequestResponseListener
      *
      * @param string $view The view for which to prepare the response modification.
      */
-    protected function prepareResponseModification(string $view)
+    protected function prepareResponseModification(?string $view)
     {
         $this->modifyResponseClosure = function (DeviceView $deviceView, ResponseEvent $event) use ($view) {
             return $deviceView->modifyResponse($view, $event->getResponse());
@@ -228,7 +228,14 @@ class RequestResponseListener
             $redirectUrl = $this->getRedirectUrl($request, $this->deviceView->getViewType());
         } else {
             if (true === $this->isFullPath) {
-                $redirectUrl = $request->getUriForPath($request->getPathInfo());
+
+                if($request->getPathInfo())
+                {
+                    $redirectUrl = $request->getUriForPath($request->getPathInfo());}
+                else{
+                    $redirectUrl = $this->getCurrentHost($request);
+                }
+
                 $queryParams = $request->query->all();
                 if (array_key_exists($this->deviceView->getSwitchParam(), $queryParams)) {
                     unset($queryParams[$this->deviceView->getSwitchParam()]);
@@ -252,7 +259,7 @@ class RequestResponseListener
      *
      * @return RedirectResponse|null
      */
-    protected function getRedirectResponse(Request $request, $view): ?RedirectResponse
+    protected function getRedirectResponse(Request $request, string $view): ?RedirectResponse
     {
         if (($host = $this->getRedirectUrl($request, $view))) {
             return $this->deviceView->getRedirectResponse(
@@ -301,13 +308,17 @@ class RequestResponseListener
     /**
      * Gets named option from current route.
      *
-     * @param string $routeName
+     * @param ?string $routeName
      * @param string $optionName
      *
      * @return string|null
      */
-    protected function getRoutingOption(string $routeName, string $optionName): ?string
+    protected function getRoutingOption(?string $routeName, string $optionName): ?string
     {
+        if(!$routeName) {
+            return null;
+        }
+
         $option = null;
         $route = $this->router->getRouteCollection()->get($routeName);
 

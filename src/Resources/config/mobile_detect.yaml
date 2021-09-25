@@ -9,6 +9,9 @@ services:
     mobile_detect.mobile_detector.default:
         class: '%mobile_detect.mobile_detector.class%'
 
+    mobile_detect.mobile_detector_interface:
+        class: 'SunCat\MobileDetectBundle\DeviceDetector\MobileDetectorInterface'
+
     mobile_detect.device_view:
         class: '%mobile_detect.device_view.class%'
         arguments: [ '@?request_stack' ]
