@@ -3,4 +3,9 @@ build/
 composer.phar
 composer.lock
 phpunit.xml
+.php_cs.cache
+.phpcs-cache
+.phpunit.result.cache
 release.sh
+.idea/
+_gsdata_/

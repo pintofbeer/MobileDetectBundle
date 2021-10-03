@@ -3,8 +3,8 @@
 namespace SunCat\MobileDetectBundle\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockBuilder;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\MockObject\MockBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
 use SunCat\MobileDetectBundle\Helper\DeviceView;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,14 +15,13 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class DeviceViewTest extends TestCase
 {
-
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var MockBuilder
      */
     private $requestStack;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     private $request;
 
@@ -46,7 +45,7 @@ class DeviceViewTest extends TestCase
         $this->request->cookies = new ParameterBag();
 
         $this->requestStack->expects($this->any())
-            ->method('getMasterRequest')
+            ->method('getMainRequest')
             ->will($this->returnValue($this->request))
         ;
     }

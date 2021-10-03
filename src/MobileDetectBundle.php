@@ -20,4 +20,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class MobileDetectBundle extends Bundle
 {
+
 }

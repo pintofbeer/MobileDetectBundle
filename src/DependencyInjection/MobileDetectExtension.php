@@ -23,6 +23,7 @@ class MobileDetectExtension extends Extension
 {
     /**
      * {@inheritDoc}
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -70,9 +71,6 @@ class MobileDetectExtension extends Extension
 
     /**
      * Validate host
-     * @param string $url
-     *
-     * @return boolean
      */
     protected function validHost(string $url): bool
     {

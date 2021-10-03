@@ -1,7 +1,7 @@
 MobileDetectBundle
 =============
 
-Symfony 4.0.x bundle for detect mobile devices, manage mobile view and redirect to the mobile and tablet version.
+Symfony 4/5/6 bundle for detect mobile devices, manage mobile view and redirect to the mobile and tablet version.
 
 
 Switch device view
@@ -13,21 +13,21 @@ For switch device view, use `device_view` GET parameter:
 http://site.com?device_view={full/mobile/tablet}
 ````
 
-Installation
-------------
+  Installation
+  ------------
 
-### Composer
+  ### Composer
 
-#### For Symfony >= 2.4
+  #### For Symfony >= 2.4
 
-Run command:
-`composer require "netbull/mobile-detect-bundle:1.0.*"`
+  Run command:
+  `composer require "netbull/mobile-detect-bundle:1.0.*"`
 
-Or add to `composer.json` in your project to `require` section:
+  Or add to `composer.json` in your project to `require` section:
 
-```json
+  ```json
 {
-    "netbull/mobile-detect-bundle": "1.0.*"
+  "netbull/mobile-detect-bundle": "1.0.*"
 }
 ```
 and run command:
@@ -87,9 +87,9 @@ mobile_detect:
     cookie_key: "device_view"                     # default
     cookie_expire_datetime_modifier: "+1 month"   # default
     switch_param: "device_view"                   # default
-    device_view_class: "SunCat\MobileDetectBundle\Helper\DeviceView"
-    request_response_listener_class: "SunCat\MobileDetectBundle\EventListener\RequestResponseListener"
-    twig_extension_class: "SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension"
+    device_view_class: 'SunCat\MobileDetectBundle\Helper\DeviceView'
+    request_response_listener_class: 'SunCat\MobileDetectBundle\EventListener\RequestResponseListener'
+    twig_extension_class: 'SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension'
 ```
 
 You can also create route specific rules for redirecting in your routing.yml.
