@@ -20,8 +20,8 @@
         }
     ],
     "require": {
-        "php": "^7.2 || ^8.0 || ^8.1",
-        "symfony/framework-bundle": "^4.4|^5.0|^6.0",
+        "php": "^7.2 || ^8.0 || ^8.1 || ^8.2",
+        "symfony/framework-bundle": "^4.4|^5.0|^6.0|^7.0",
         "mobiledetect/mobiledetectlib": "^2.8",
         "twig/twig": "2.*|3.*"
     },
